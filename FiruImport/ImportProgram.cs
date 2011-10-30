@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Firu
 {
-    class Import
+    class ImportProgram
     {
         static void Main(string[] args)
         {
