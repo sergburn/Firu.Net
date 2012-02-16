@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiruImport", "FiruImport.csproj", "{FFCBA9B5-618D-43B1-8B8E-C5EF413C46CF}"
+# Visual Studio 2010 Express for Windows Phone
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiruImport", "FiruImport\FiruImport.csproj", "{FFCBA9B5-618D-43B1-8B8E-C5EF413C46CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiruModel", "..\FiruModel\FiruModel.csproj", "{338DE148-BC3C-4DD0-B71F-9B6B2E117406}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiruModel", "FiruModel\FiruModel.csproj", "{338DE148-BC3C-4DD0-B71F-9B6B2E117406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiruPhone", "FiruPhone\FiruPhone.csproj", "{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,20 @@ Global
 		{338DE148-BC3C-4DD0-B71F-9B6B2E117406}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{338DE148-BC3C-4DD0-B71F-9B6B2E117406}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{338DE148-BC3C-4DD0-B71F-9B6B2E117406}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{2A70B069-89B2-49B0-A69E-32B0EAB4ADED}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

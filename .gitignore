@@ -1,0 +1,8 @@
+
+*.suo
+*.cache
+*.pdb
+*.manifest
+*.user
+Debug/
+Release/
