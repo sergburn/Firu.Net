@@ -11,7 +11,8 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot представляет корневую сетку, где размещается все содержимое страницы-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -27,7 +28,43 @@
         </StackPanel>
 
         <!--ContentPanel — поместите здесь дополнительное содержимое-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0"></Grid>
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="File:"
+                Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Name="laFileName"
+                Grid.Row="0" Grid.Column="1"/>
+            <TextBlock Text="Name:"
+                Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Name="laName"
+                Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Text="Words:"
+                Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Name="laWords"
+                Grid.Row="2" Grid.Column="1"/>
+            <TextBlock Text="Translations:"
+                Grid.Row="3" Grid.Column="0"/>
+            <TextBlock Name="laTranslations"
+                Grid.Row="3" Grid.Column="1"/>
+            <Slider Name="slProgress" Minimum="0" Maximum="100"
+                Grid.ColumnSpan="2" Grid.Row="4"/>
+            <TextBlock Name="laResult" Text=""
+                Grid.ColumnSpan="2" Grid.Row="5"/>
+            <Button Name="btnCancel" Content="Cancel" Click="btnCancel_Click"
+                Grid.Row="6" Grid.Column="1"/>
+        </Grid>
     </Grid>
  
     <!--Пример кода, иллюстрирующий использование ApplicationBar-->

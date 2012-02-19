@@ -77,52 +77,6 @@ namespace FiruPhone
                 // и потреблять энергию батареи, когда телефон не будет использоваться.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
-            // Create the database if it does not exist.
-            using (Dictionary db = new Dictionary(Dictionary.IsoConnectionString))
-            {
-                db.DeleteDatabase();
-                if (db.DatabaseExists() == false)
-                {
-                    //Create the database
-                    db.CreateDatabase();
-                }
-
-                //DataLoadOptions dlo = new DataLoadOptions();
-                //dlo.LoadWith<Dictionary.Word>(w => w.Translations);
-                //db.LoadOptions = dlo;
-                //db.DeferredLoadingEnabled = false;
-
-                Dictionary.Word word = new Dictionary.Word { Text = "test" };
-
-                Dictionary.Translation trans =
-                    new Dictionary.Translation { Word = word, Text = "koe" };
-                //word.Translations.Add(trans);
-
-                db.Words.InsertOnSubmit(word);
-                db.Translations.InsertOnSubmit(trans);
-                db.SubmitChanges();
-            }
-
-            using (Dictionary db = new Dictionary(Dictionary.IsoConnectionString))
-            {
-                var words = from w in db.Words select w;
-                foreach (Dictionary.Word w in words)
-                {
-                    Debug.WriteLine(w);
-                    foreach(Dictionary.Translation t in w.Translations)
-                    {
-                        Debug.WriteLine(t);
-                    }
-                }
-
-                var translations = from t in db.Translations select t;
-                foreach (Dictionary.Translation t in translations)
-                {
-                    Debug.WriteLine(t);
-                    Debug.WriteLine(t.Word);
-                }
-            }
         }
 
         // Код для выполнения при запуске приложения (например, из меню "Пуск")

@@ -15,9 +15,19 @@ namespace FiruModel
             "Data Source=appstore:/dict_fi_ru.sdf; File Mode = read only;";
 
         // Pass the connection string to the base class.
-        public Dictionary(string connectionString)
+        Dictionary(string connectionString)
             : base(connectionString)
         {
+        }
+
+        public static Dictionary Open(string connectionString)
+        {
+            Dictionary self = new Dictionary(connectionString);
+            if (!self.DatabaseExists())
+            {
+                self.CreateDatabase();
+            }
+            return self;
         }
 
         public Word AddWord(string word, List<string> translations, bool submit = true)
@@ -41,7 +51,7 @@ namespace FiruModel
         public Table<Translation> Translations; // should be map of language pair
 
         [Table(Name = "words")]
-        [Index(Columns = "Text", IsUnique = true)]
+        [Index(Columns = "Text")]
         public class Word : WordBase
         {
             private int _ID;

@@ -23,18 +23,15 @@ namespace FiruModel
 
         public event EventHandler<Info> ProgressHandler;
 
-        private string mFilePath;
-        private int OpsCount;
+        private bool mCancel;
 
-        public DslConverter(string filePath)
+        public DslConverter()
         {
-            mFilePath = filePath;
         }
 
-        public void Import(Dictionary dict)
+        public void Import(FileStream fs, Dictionary dict)
         {
-            using (FileStream fs = new FileStream(mFilePath, FileMode.Open, FileAccess.Read))
-            {
+            mCancel = false;
             using (StreamReader stream = new StreamReader(fs, Encoding.Unicode))
             {
                 string line = null;
@@ -44,37 +41,34 @@ namespace FiruModel
 
                 while ((line = stream.ReadLine()) != null)
                 {
+                    if (mCancel) break;
+
                     if (line.StartsWith("#"))
                     {
-                        if ( line.StartsWith( "#INDEX_LANGUAGE" ) )
+                        if (line.StartsWith("#INDEX_LANGUAGE"))
                         {
-                            info.SourceLanguage = line.Substring(line.IndexOf('"'), line.LastIndexOf('"'));
+                            info.SourceLanguage = GetSubstringBetween(line, "\"");
                         }
-                        else if ( line.StartsWith( "#CONTENTS_LANGUAGE" ) )
+                        else if (line.StartsWith("#CONTENTS_LANGUAGE"))
                         {
-                            info.TargetLanguage = line.Substring(line.IndexOf('"'), line.LastIndexOf('"'));
+                            info.TargetLanguage = GetSubstringBetween(line, "\"");
                         }
-                        else if ( line.StartsWith( "#NAME" ) )
+                        else if (line.StartsWith("#NAME"))
                         {
-                            info.Name = line.Substring(line.IndexOf('"'), line.LastIndexOf('"'));
+                            info.Name = GetSubstringBetween(line, "\"");
                         }
                     }
-                    else if ( line.Length != 0 && !Char.IsSeparator(line[0]) )
+                    else if (line.Length != 0 && !Char.IsWhiteSpace(line, 0))
                     {
                         word = line;
                     }
-                    else if ( line.Contains("[trn]") )
+                    else if (line.Contains("[trn]"))
                     {
-                        int start = line.IndexOf("[trn]") + "[trn]".Length;
-                        int end = line.IndexOf("[/trn]");
-                        if ( end > start )
-                        {
-                            translations.Add( line.Substring( start, end - start ) );
-                        }
+                        translations.Add(GetSubstringBetween(line, "[trn]", "[/trn]"));
                     }
-                    else if ( line.Trim().Length == 0)
+                    else if (line.Trim().Length == 0)
                     {
-                        Dictionary.Word w = dict.AddWord(word, translations);
+                        Dictionary.Word w = dict.AddWord(word, translations, false);
                         if (w == null)
                         {
                             Debug.WriteLine("Importing failed on word '{0}'", word);
@@ -83,12 +77,11 @@ namespace FiruModel
                         info.WordCount++;
                         info.TranslationCount += translations.Count;
 
-                        OpsCount++;
-                        if (OpsCount % 100 == 0)
+                        if (info.WordCount % 100 == 0)
                         {
                             dict.SubmitChanges();
 
-                            info.Progress = fs.Position * 100.0 / fs.Length;
+                            info.Progress = (double) fs.Position / (double) fs.Length;
                             if (ProgressHandler != null)
                             {
                                 ProgressHandler.Invoke(this, info);
@@ -100,7 +93,26 @@ namespace FiruModel
                 }
                 dict.SubmitChanges();
             }
+        }
+
+        public void Cancel()
+        {
+            mCancel = true;
+        }
+
+        private string GetSubstringBetween(string line, string left, string right = "")
+        {
+            if (right.Length == 0)
+            {
+                right = left;
             }
+            int start = line.IndexOf(left) + left.Length;
+            int end = line.LastIndexOf(right);
+            if (start > -1 && end > start)
+            {
+                return line.Substring(start, end - start);
+            }
+            return "";
         }
     }
 }
