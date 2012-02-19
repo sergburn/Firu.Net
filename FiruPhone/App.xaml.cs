@@ -1,40 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+﻿using System.Windows;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using FiruModel;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using FiruModel;
-using System.Diagnostics;
-using System.Data.Linq;
 
 namespace FiruPhone
 {
     public partial class App : Application
     {
-        private static MainViewModel viewModel = null;
+        private static Dictionary mDictionary = null;
 
-        /// <summary>
-        /// Статический элемент ViewModel, используемый в представлениях для привязки.
-        /// </summary>
-        /// <returns>Объект MainViewModel.</returns>
-        public static MainViewModel ViewModel
+        private static DictViewModel mDictViewModel = null;
+        public static DictViewModel DictModel
         {
             get
             {
                 // Отложить создание модели представления до необходимости
-                if (viewModel == null)
-                    viewModel = new MainViewModel();
+                if (mDictViewModel == null)
+                    mDictViewModel = new DictViewModel(mDictionary);
 
-                return viewModel;
+                return mDictViewModel;
             }
         }
 
@@ -77,6 +62,8 @@ namespace FiruPhone
                 // и потреблять энергию батареи, когда телефон не будет использоваться.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
+
+            mDictionary = Dictionary.Open(Dictionary.AppConnectionString);
         }
 
         // Код для выполнения при запуске приложения (например, из меню "Пуск")
@@ -89,11 +76,6 @@ namespace FiruPhone
         // Этот код не будет выполняться при первом запуске приложения
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
-            // Убедитесь, что состояние приложения восстановлено правильно
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData();
-            }
         }
 
         // Код для выполнения при деактивации приложения (отправляется в фоновый режим)

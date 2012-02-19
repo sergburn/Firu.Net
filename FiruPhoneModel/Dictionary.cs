@@ -1,8 +1,9 @@
-﻿using System.Data.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
-using System.Collections.Generic;
 
 namespace FiruModel
 {
@@ -12,7 +13,10 @@ namespace FiruModel
         public static string IsoConnectionString = 
             "Data Source=isostore:/dict_fi_ru.sdf";
         public static string AppConnectionString =
-            "Data Source=appstore:/dict_fi_ru.sdf; File Mode = read only;";
+            "Data Source=appdata:/dict_fi_ru.sdf; File Mode = read only;";
+
+        public int TotalWords { get; private set; }
+        public int TotalTranslations { get; private set; }
 
         // Pass the connection string to the base class.
         Dictionary(string connectionString)
@@ -27,6 +31,10 @@ namespace FiruModel
             {
                 self.CreateDatabase();
             }
+
+            self.TotalWords = self.Words.Count();
+            self.TotalTranslations = self.Translations.Count();
+
             return self;
         }
 
@@ -45,6 +53,15 @@ namespace FiruModel
                 SubmitChanges();
             }
             return w;
+        }
+
+        public List<Word> SearchWords(string startsWith)
+        {
+            var words = from w in Words 
+                        where w.Text.StartsWith(startsWith)
+                        select w;
+
+            return words.ToList<Word>();
         }
 
         public Table<Word> Words; // should be map of language
