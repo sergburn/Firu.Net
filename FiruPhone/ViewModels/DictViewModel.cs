@@ -8,6 +8,7 @@ namespace FiruPhone
     public class DictViewModel : INotifyPropertyChanged, INotifyPropertyChanging
     {
         private Dictionary mDictionary;
+        private Vocabulary mVocabulary;
 
         private string mSearchText;
         public string SearchText
@@ -21,7 +22,6 @@ namespace FiruPhone
                     Update();
                 }
             }
-
         }
 
         public List<Dictionary.Word> Matches
@@ -48,7 +48,12 @@ namespace FiruPhone
             }
         }
 
-        public string Info
+        public void AddSelectionToLearning()
+        {
+            mVocabulary.AddWord(Selection, mDictionary);
+        }
+
+        public string Stat
         {
             get
             {
@@ -61,17 +66,26 @@ namespace FiruPhone
             }
         }
 
-        public DictViewModel(Dictionary dict)
+        public string Info
+        {
+            get
+            {
+                return mDictionary.Description.Name;
+            }
+        }
+
+        public DictViewModel(Dictionary dict, Vocabulary voc)
         {
             mDictionary = dict;
+            mVocabulary = voc;
         }
 
         void Update()
         {
             NotifyPropertyChanging("Matches");
-            NotifyPropertyChanging("Info");
+            NotifyPropertyChanging("Stat");
             Matches = mDictionary.SearchWords(SearchText);
-            NotifyPropertyChanged("Info");
+            NotifyPropertyChanged("Stat");
             NotifyPropertyChanged("Matches");
         }
 

@@ -10,7 +10,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot представляет корневую сетку, где размещается все содержимое страницы-->
@@ -28,7 +28,7 @@
 
         <!--ContentPanel – поместите здесь дополнительное содержимое-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ListBox Name="lbTranslations"
+            <ListBox Name="lbTranslations" Margin="9,0"
                 ItemsSource="{Binding Selection.Translations}"
                              Grid.Row="1">
                 <ListBox.ItemTemplate>
@@ -41,15 +41,17 @@
     </Grid>
  
     <!--Пример кода, иллюстрирующий использование ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
+    <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Кнопка 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Кнопка 2"/>
-            <shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.favs.addto.rest.png"
+                Text="learn" Click="AddWordToLearningButton_Click"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar.close.rest.png"
+                Text="forget" Click="ForgetWordButton_Click"/>
+            <!--shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Элемент меню 1"/>
                 <shell:ApplicationBarMenuItem Text="Элемент меню 2"/>
-            </shell:ApplicationBar.MenuItems>
+            </shell:ApplicationBar.MenuItems-->
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>

@@ -8,12 +8,57 @@ namespace FiruModel
     public class Vocabulary : DataContext
     {
         // Specify the connection string as a static, used in main page and app.xaml.
-        public static string DBConnectionString = "Data Source=isostore:/firu.sdf";
+        public static string IsoConnectionString =
+            "Data Source=isostore:/vocabulary.sdf";
 
         // Pass the connection string to the base class.
         public Vocabulary(string connectionString)
             : base(connectionString)
         {
+        }
+
+        public static Vocabulary Open(string connectionString)
+        {
+            Vocabulary self = new Vocabulary(connectionString);
+            if (!self.DatabaseExists())
+            {
+                self.CreateDatabase();
+            }
+
+            self.Upgrade();
+
+            return self;
+        }
+
+        private void Upgrade()
+        {
+            DatabaseSchemaUpdater dbUpdate = this.CreateDatabaseSchemaUpdater();
+
+            int requiredDbVersion = 0;
+            // add upgrade code here
+            if (dbUpdate.DatabaseSchemaVersion < requiredDbVersion)
+            {
+                dbUpdate.DatabaseSchemaVersion = requiredDbVersion;
+                dbUpdate.Execute();
+            }
+        }
+        
+        public Word AddWord(Dictionary.Word dictWord, Dictionary dict, bool submit = true)
+        {
+            Word w = new Word { Text = dictWord.Text, SourceLang = dict.Description.SourceLanguage };
+            foreach (Dictionary.Translation dt in dictWord.Translations)
+            {
+                Translation t = new Translation
+                    { Word = w, Text = dt.Text, TargetLang = dict.Description.TargetLanguage };
+                Translations.InsertOnSubmit(t);
+                w.Translations.Add(t);
+            }
+            Words.InsertOnSubmit(w);
+            if (submit)
+            {
+                SubmitChanges();
+            }
+            return w;
         }
 
         public Table<Word> Words; // should be map of language
@@ -26,7 +71,7 @@ namespace FiruModel
         {
             private int _ID;
             private string _Text;
-            private short _Lang;
+            private string _Lang;
             private EntitySet<Translation> _Translations;
 
             public Word()
@@ -54,15 +99,15 @@ namespace FiruModel
                 {
                     if (_Text != value)
                     {
-                        NotifyPropertyChanging("Text");
+                        //NotifyPropertyChanging("Text");
                         _Text = value;
-                        NotifyPropertyChanged("Text");
+                        //NotifyPropertyChanged("Text");
                     }
                 }
             }
 
             [Column(Name = "lang", Storage="_Lang")]
-            public short SourceLang
+            public string SourceLang
             {
                 get
                 {
@@ -72,9 +117,9 @@ namespace FiruModel
                 {
                     if (_Lang != value)
                     {
-                        NotifyPropertyChanging("SourceLang");
+                        //NotifyPropertyChanging("SourceLang");
                         _Lang = value;
-                        NotifyPropertyChanged("SourceLang");
+                        //NotifyPropertyChanged("SourceLang");
                     }
                 }
             }
@@ -88,12 +133,12 @@ namespace FiruModel
         }
 
         [Table(Name = "translations")]
-        [Index(Columns = "fmark")]
-        [Index(Columns = "rmark")]
+        [Index(Columns = "Fmark")]
+        [Index(Columns = "Rmark")]
         public class Translation : TranslationBase
         {
             private int _ID;
-            private short _Lang;
+            private string _Lang;
             private byte _fmark;
             private byte _rmark;
             private string _Text;
@@ -138,7 +183,7 @@ namespace FiruModel
             }
             
             [Column(Name = "lang")]
-            public short TargetLang
+            public string TargetLang
             {
                 get
                 {

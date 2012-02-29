@@ -92,6 +92,16 @@ namespace FiruModel
                     }
                 }
                 dict.SubmitChanges();
+
+                Dictionary.Information dictInfo = new Dictionary.Information();
+                dictInfo.Name = info.Name;
+                dictInfo.SourceLanguage = info.SourceLanguage;
+                dictInfo.TargetLanguage = info.TargetLanguage;
+                dictInfo.OriginalFormat = "dsl";
+                dictInfo.OriginalFile = fs.Name;
+
+                dict.Info.InsertOnSubmit(dictInfo);
+                dict.SubmitChanges();
             }
         }
 

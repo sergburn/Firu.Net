@@ -7,12 +7,14 @@
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:FiruPhone"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    local:TiltEffect.IsTiltEnabled="True">
 
     <!--LayoutRoot представляет корневую сетку, где размещается все содержимое страницы-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -20,10 +22,11 @@
         <controls:Pivot Title="Firu" FontSize="32">
             <!--Первый элемент Pivot-->
             <controls:PivotItem Header="dict">
-                <Grid>
+                <Grid Margin="0,0,10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid>
@@ -38,6 +41,7 @@
                     <ListBox x:Name="lbWords" Margin="0,0,-12,0"
                              ItemsSource="{Binding Matches}"
                              Grid.Row="1"
+                             Tap="lbWords_DoubleTap"
                              DoubleTap="lbWords_DoubleTap">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -45,8 +49,10 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <TextBlock Name="laInfo" Text="{Binding Info}"
+                    <TextBlock Name="laStat" Text="{Binding Stat}"
                                Grid.Row="2" Style="{StaticResource PhoneTextNormalStyle}" />
+                    <TextBlock Name="laInfo" Text="{Binding Info}"
+                               Grid.Row="3" Style="{StaticResource PhoneTextNormalStyle}" />
                 </Grid>
             </controls:PivotItem>
 

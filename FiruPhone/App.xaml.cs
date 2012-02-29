@@ -9,6 +9,7 @@ namespace FiruPhone
     public partial class App : Application
     {
         private static Dictionary mDictionary = null;
+        private static Vocabulary mVocabulary = null;
 
         private static DictViewModel mDictViewModel = null;
         public static DictViewModel DictModel
@@ -17,7 +18,7 @@ namespace FiruPhone
             {
                 // Отложить создание модели представления до необходимости
                 if (mDictViewModel == null)
-                    mDictViewModel = new DictViewModel(mDictionary);
+                    mDictViewModel = new DictViewModel(mDictionary, mVocabulary);
 
                 return mDictViewModel;
             }
@@ -64,6 +65,7 @@ namespace FiruPhone
             }
 
             mDictionary = Dictionary.Open(Dictionary.AppConnectionString);
+            mVocabulary = Vocabulary.Open(Vocabulary.IsoConnectionString);
         }
 
         // Код для выполнения при запуске приложения (например, из меню "Пуск")

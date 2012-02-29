@@ -17,6 +17,7 @@ namespace FiruModel
 
         public int TotalWords { get; private set; }
         public int TotalTranslations { get; private set; }
+        public Information Description { get; private set; }
 
         // Pass the connection string to the base class.
         Dictionary(string connectionString)
@@ -32,10 +33,29 @@ namespace FiruModel
                 self.CreateDatabase();
             }
 
+            self.Upgrade();
+
             self.TotalWords = self.Words.Count();
             self.TotalTranslations = self.Translations.Count();
+            self.Description = self.Info.FirstOrDefault();
 
             return self;
+        }
+
+        private void Upgrade()
+        {
+            DatabaseSchemaUpdater dbUpdate = this.CreateDatabaseSchemaUpdater();
+            
+            int requiredDbVersion = 1;
+            if (dbUpdate.DatabaseSchemaVersion < 1)
+            {
+                dbUpdate.AddTable<Information>();
+            }
+            if (dbUpdate.DatabaseSchemaVersion < requiredDbVersion)
+            {
+                dbUpdate.DatabaseSchemaVersion = requiredDbVersion;
+                dbUpdate.Execute();
+            }
         }
 
         public Word AddWord(string word, List<string> translations, bool submit = true)
@@ -66,6 +86,7 @@ namespace FiruModel
 
         public Table<Word> Words; // should be map of language
         public Table<Translation> Translations; // should be map of language pair
+        public Table<Information> Info;
 
         [Table(Name = "words")]
         [Index(Columns = "Text")]
@@ -160,6 +181,25 @@ namespace FiruModel
                 get { return this._Word.Entity; }
                 set { this._Word.Entity = value; }
             }
+        }
+
+        [Table(Name = "info")]
+        public class Information
+        {
+            [Column(Name = "source")]
+            public string OriginalFile;
+
+            [Column(Name = "sourceFormat")]
+            public string OriginalFormat;
+
+            [Column(Name = "name")]
+            public string Name;
+
+            [Column(Name = "src_lang")]
+            public string SourceLanguage;
+
+            [Column(Name = "trg_lang")]
+            public string TargetLanguage;
         }
     }
 }
