@@ -170,7 +170,7 @@ namespace FiruModel
             }
             
             [Column(Name = "word_id")]
-            public int WordID;
+            private int WordID;
 
             private EntityRef<Word> _Word;
             [Association(

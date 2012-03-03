@@ -68,6 +68,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TiltEffect.cs" />
+    <Compile Include="TrainerView.xaml.cs">
+      <DependentUpon>TrainerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DictViewModel.cs" />
     <Compile Include="ViewModels\TrainerViewModel.cs" />
     <Compile Include="WordView.xaml.cs">
@@ -87,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </DesignData>
+    <Page Include="TrainerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

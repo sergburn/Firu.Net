@@ -51,8 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DslConverter.cs" />
+    <Compile Include="Mark.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dictionary.cs" />
+    <Compile Include="ReverseTest.cs" />
     <Compile Include="Translation.cs" />
     <Compile Include="Vocabulary.cs" />
     <Compile Include="Word.cs" />

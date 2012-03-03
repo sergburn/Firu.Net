@@ -99,9 +99,9 @@ namespace FiruModel
                 {
                     if (_Text != value)
                     {
-                        //NotifyPropertyChanging("Text");
+                        NotifyPropertyChanging("Text");
                         _Text = value;
-                        //NotifyPropertyChanged("Text");
+                        NotifyPropertyChanged("Text");
                     }
                 }
             }
@@ -117,9 +117,9 @@ namespace FiruModel
                 {
                     if (_Lang != value)
                     {
-                        //NotifyPropertyChanging("SourceLang");
+                        NotifyPropertyChanging("SourceLang");
                         _Lang = value;
-                        //NotifyPropertyChanged("SourceLang");
+                        NotifyPropertyChanged("SourceLang");
                     }
                 }
             }
@@ -139,12 +139,16 @@ namespace FiruModel
         {
             private int _ID;
             private string _Lang;
-            private byte _fmark;
-            private byte _rmark;
+            private MarkValue _fmark;
+            private MarkValue _rmark;
             private string _Text;
             [Column(Name = "word_id")]
-            public int WordID;
+            private int WordID;
             private EntityRef<Word> _Word;
+
+            public Translation()
+            {
+            }
 
             [Column(Name = "id", Storage = "_ID", IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
             public int ID
@@ -166,9 +170,9 @@ namespace FiruModel
                 {
                     if (_Text != value)
                     {
-                        //NotifyPropertyChanging("Text");
+                        NotifyPropertyChanging("Text");
                         _Text = value;
-                        //NotifyPropertyChanged("Text");
+                        NotifyPropertyChanged("Text");
                     }
                 }
             }
@@ -193,47 +197,57 @@ namespace FiruModel
                 {
                     if (_Lang != value)
                     {
-                        //NotifyPropertyChanging("TargetLang");
+                        NotifyPropertyChanging("TargetLang");
                         _Lang = value;
-                        //NotifyPropertyChanged("TargetLang");
+                        NotifyPropertyChanged("TargetLang");
                     }
                 }
             }
 
-            [Column(Name = "fmark", Storage="_fmark")]
-            public byte Fmark
+            [Column(Name = "fmark", Storage = "_fmark", DbType = "TINYINT NOT NULL")]
+            public MarkValue ForwardMark
             {
                 get
                 {
                     return _fmark;
                 }
-                set
+                private set
                 {
                     if (_fmark != value)
                     {
-                        //NotifyPropertyChanging("Fmark");
+                        NotifyPropertyChanging("ForwardMark");
                         _fmark = value;
-                        //NotifyPropertyChanged("Fmark");
+                        NotifyPropertyChanged("ForwardMark");
                     }
                 }
             }
 
-            [Column(Name = "rmark", Storage = "_rmark")]
-            public byte Rmark
+            public void UpdateForwardMark(TestResult testResult)
+            {
+                ForwardMark = Mark.UpdateToTestResult(ForwardMark, testResult);
+            }
+
+            [Column(Name = "rmark", Storage = "_rmark", DbType = "TINYINT NOT NULL")]
+            public MarkValue ReverseMark
             {
                 get
                 {
                     return _rmark;
                 }
-                set
+                private set
                 {
                     if (_rmark != value)
                     {
-                        //NotifyPropertyChanging("Rmark");
+                        NotifyPropertyChanging("ReverseMark");
                         _rmark = value;
-                        //NotifyPropertyChanged("Rmark");
+                        NotifyPropertyChanged("ReverseMark");
                     }
                 }
+            }
+
+            public void UpdateReverseMark(TestResult testResult)
+            {
+                ReverseMark = Mark.UpdateToTestResult(ReverseMark, testResult);
             }
         }
     }
