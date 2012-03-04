@@ -13,7 +13,7 @@ using System.Text;
 
 namespace FiruModel
 {
-    enum TestResult
+    public enum TestResult
     {
         Incomplete,
         Passed,             // adds 1 to current rate
@@ -21,7 +21,7 @@ namespace FiruModel
         Failed              // sets current rate 1.
     }
 
-    enum AnswerValue
+    public enum AnswerValue
     {
         Incorrect,
         PartiallyCorrect,
@@ -30,22 +30,25 @@ namespace FiruModel
 
     public class ReverseTest
     {
-        uint mMaxLives = 0;
-        uint mLivesLeft = 0;
+        int mMaxLives = 0;
+        int mLivesLeft = 0;
         Vocabulary.Translation mChallenge = null;
         TestResult mResult = TestResult.Incomplete;
         Random mRand = new Random();
 
-        public ReverseTest(Vocabulary.Translation challenge, uint maxLives = 3)
+        public ReverseTest(Vocabulary.Translation challenge, int maxLives = 3)
         {
             mChallenge = challenge;
             mMaxLives = maxLives;
             mLivesLeft = maxLives;
         }
 
-        public string Question
+        public Vocabulary.Translation Challenge
         {
-            get { return mChallenge.Text; }
+            get
+            {
+                return mChallenge;
+            }
         }
 
         public string Answer
@@ -60,14 +63,14 @@ namespace FiruModel
             }
         }
 
-        public string QuestionLang
+        public int LivesLeft
         {
-            get { return mChallenge.TargetLang; }
+            get { return mLivesLeft; }
         }
 
-        public string AnswerLang
+        public int MaxLives
         {
-            get { return mChallenge.Word.SourceLang; }
+            get { return mMaxLives; }
         }
 
         public int AnswerLength
@@ -128,7 +131,7 @@ namespace FiruModel
                     }
                     else
                     {
-                        hints.Append(grp.Substring(mRand.Next(grp.Length), 1);
+                        hints.Append(grp.Substring(mRand.Next(grp.Length), 1));
                     }
                 }
             }

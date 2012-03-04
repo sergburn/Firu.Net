@@ -1,34 +1,60 @@
 ﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using FiruModel;
+using System.Linq;
+using System.Data.Linq;
 using System.Collections.Generic;
+using FiruModel;
+using System.ComponentModel;
 
 namespace FiruPhone
 {
-    public class TrainerViewModel
+    public class TrainerViewModel : INotifyPropertyChanged, INotifyPropertyChanging
     {
         Vocabulary mVocabulary = null;
-        
-        private int _currentTestIndex;
-        private List<ReverseTest> _tests;
+        Random mRand = new Random();
 
-        public ReverseTest CurrentTest
+        ReverseTest mCurrentTest = null;
+
+        public string Challenge
         {
             get
             {
-                if (_currentTestIndex >= 0)
-                {
-                    return _tests[_currentTestIndex];
-                }
-                return null;
+                if (mCurrentTest != null)
+                    return mCurrentTest.Challenge.Text;
+                else
+                    return "";
+            }
+        }
+
+        public string CurrentMark
+        {
+            get
+            {
+                if (mCurrentTest != null)
+                    return Mark.ToString(mCurrentTest.Challenge.ReverseMark);
+                else
+                    return "nothing to learn";
+            }
+        }
+
+        public int LivesLeft
+        {
+            get
+            {
+                if (mCurrentTest != null)
+                    return mCurrentTest.LivesLeft;
+                else
+                    return 0;
+            }
+        }
+
+        public int LivesTotal
+        {
+            get
+            {
+                if (mCurrentTest != null)
+                    return mCurrentTest.MaxLives;
+                else
+                    return 0;
             }
         }
 
@@ -37,14 +63,57 @@ namespace FiruPhone
             mVocabulary = voc;
         }
 
-        public void StartNewExercise()
-        {
-            _tests.AddRange
-        }
-
         public bool StartNextTest()
         {
-            return hasMoreTests;
+            Dictionary<MarkValue, List<int>> allIds = new Dictionary<MarkValue, List<int>>();
+            int numTriedMarks = 0;
+            while (true)
+            {
+                int random = mRand.Next(100);
+                MarkValue mark = MarkValue.Unknown;
+                if (random < 15) // 15%
+                {
+                    mark = MarkValue.AlmostLearned;
+                }
+                else if (random < 50) // 35%
+                {
+                    mark = MarkValue.WithHints;
+                }
+                else // 50%
+                {
+                    mark = MarkValue.ToLearn;
+                }
+
+                if (!allIds.ContainsKey(mark))
+                {
+                    var idQuery = from t in mVocabulary.Translations
+                                  where t.ReverseMark == mark
+                                  select t.ID;
+                    allIds[mark] = idQuery.ToList();
+                    numTriedMarks++;
+                }
+
+                if (allIds[mark].Count > 0)
+                {
+                    random = mRand.Next(allIds[mark].Count);
+
+                    var tranQuery = from t in mVocabulary.Translations
+                                    where t.ID == random
+                                    select t;
+
+                    mCurrentTest = new ReverseTest(tranQuery.First());
+                    return true;
+                }
+                else
+                {
+                    // try again unless there is nothing to learn
+                    if (numTriedMarks == 3)
+                    {
+                        mCurrentTest = null;
+                        return false;
+                    }
+                }
+            }
         }
 
         public static List<string> GetKeypadGroups(string language)
@@ -72,5 +141,35 @@ namespace FiruPhone
             }
             return groups;
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Used to notify the page that a data context property changed
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanging Members
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        // Used to notify the data context that a data context property is about to change
+        protected void NotifyPropertyChanging(string propertyName)
+        {
+            if (PropertyChanging != null)
+            {
+                PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
+            }
+        }
+
+        #endregion
     }
 }

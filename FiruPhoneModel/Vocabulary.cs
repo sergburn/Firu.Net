@@ -49,7 +49,8 @@ namespace FiruModel
             foreach (Dictionary.Translation dt in dictWord.Translations)
             {
                 Translation t = new Translation
-                    { Word = w, Text = dt.Text, TargetLang = dict.Description.TargetLanguage };
+                    { Word = w, Text = dt.Text, TargetLang = dict.Description.TargetLanguage,
+                     ReverseMark = MarkValue.ToLearn, ForwardMark = MarkValue.ToLearn};
                 Translations.InsertOnSubmit(t);
                 w.Translations.Add(t);
             }
@@ -133,8 +134,8 @@ namespace FiruModel
         }
 
         [Table(Name = "translations")]
-        [Index(Columns = "Fmark")]
-        [Index(Columns = "Rmark")]
+        [Index(Columns = "ForwardMark")]
+        [Index(Columns = "ReverseMark")]
         public class Translation : TranslationBase
         {
             private int _ID;
@@ -211,7 +212,7 @@ namespace FiruModel
                 {
                     return _fmark;
                 }
-                private set
+                internal set
                 {
                     if (_fmark != value)
                     {
@@ -234,7 +235,7 @@ namespace FiruModel
                 {
                     return _rmark;
                 }
-                private set
+                internal set
                 {
                     if (_rmark != value)
                     {

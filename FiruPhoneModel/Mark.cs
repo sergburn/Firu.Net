@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace FiruModel
 {
-    enum MarkValue
+    public enum MarkValue
     {
         Unknown = 0,
         ToLearn = 1,
@@ -64,16 +64,14 @@ namespace FiruModel
         {
             switch (mark)
             {
-                case MarkValue.Unknown:
-                    return "New";
                 case MarkValue.ToLearn:
-                    return "Need to learn";
+                    return "learning";
                 case MarkValue.WithHints:
-                    return "With hints";
+                    return "hints required";
                 case MarkValue.AlmostLearned:
-                    return "Well known";
+                    return "well known";
                 case MarkValue.Learned:
-                    return "Learned";
+                    return "learned";
                 default:
                     return "<none>";
             }

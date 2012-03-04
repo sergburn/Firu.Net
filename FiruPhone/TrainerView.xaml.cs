@@ -18,6 +18,25 @@ namespace FiruPhone
         public TrainerView()
         {
             InitializeComponent();
+            DataContext = App.TrainerModel;
+        }
+
+        private void btn1_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+
+        private void MarkAsLearned_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (App.TrainerModel.Challenge.Length == 0)
+            {
+                App.TrainerModel.StartNextTest();
+            }
         }
     }
 }

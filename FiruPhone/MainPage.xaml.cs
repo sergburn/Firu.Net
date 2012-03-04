@@ -38,5 +38,10 @@ namespace FiruPhone
             App.DictModel.Selection = ((sender as ListBox).SelectedItem as FiruModel.Dictionary.Word);
             NavigationService.Navigate(new Uri("/WordView.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void GoToTrainer_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/TrainerView.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

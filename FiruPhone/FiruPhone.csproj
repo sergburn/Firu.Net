@@ -106,14 +106,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\data\dict_fi_ru.sdf">
+    <None Include="..\data\dict_fi_ru.sdf">
       <Link>dict_fi_ru.sdf</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\appbar.check.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\appbar.close.rest.png">

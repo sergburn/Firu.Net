@@ -24,6 +24,19 @@ namespace FiruPhone
             }
         }
 
+        private static TrainerViewModel mTrainerViewModel = null;
+        public static TrainerViewModel TrainerModel
+        {
+            get
+            {
+                // Отложить создание модели представления до необходимости
+                if (mTrainerViewModel == null)
+                    mTrainerViewModel = new TrainerViewModel(mVocabulary);
+
+                return mTrainerViewModel;
+            }
+        }
+
         /// <summary>
         /// Обеспечивает быстрый доступ к корневому кадру приложения телефона.
         /// </summary>
