@@ -14,6 +14,22 @@ namespace FiruPhone
 
         ReverseTest mCurrentTest = null;
 
+        public ReverseTest CurrentTest
+        {
+            get 
+            { 
+                return mCurrentTest; 
+            }
+            set
+            {
+                if (mCurrentTest != value)
+                {
+                    mCurrentTest = value;
+                    NotifyPropertyChanged("CurrentTest");
+                }
+            }
+        }
+
         public string Challenge
         {
             get
@@ -33,28 +49,6 @@ namespace FiruPhone
                     return Mark.ToString(mCurrentTest.Challenge.ReverseMark);
                 else
                     return "nothing to learn";
-            }
-        }
-
-        public int LivesLeft
-        {
-            get
-            {
-                if (mCurrentTest != null)
-                    return mCurrentTest.LivesLeft;
-                else
-                    return 0;
-            }
-        }
-
-        public int LivesTotal
-        {
-            get
-            {
-                if (mCurrentTest != null)
-                    return mCurrentTest.MaxLives;
-                else
-                    return 0;
             }
         }
 
@@ -101,7 +95,7 @@ namespace FiruPhone
                                     where t.ID == random
                                     select t;
 
-                    mCurrentTest = new ReverseTest(tranQuery.First());
+                    CurrentTest = new ReverseTest(tranQuery.First());
                     return true;
                 }
                 else
@@ -109,7 +103,7 @@ namespace FiruPhone
                     // try again unless there is nothing to learn
                     if (numTriedMarks == 3)
                     {
-                        mCurrentTest = null;
+                        CurrentTest = null;
                         return false;
                     }
                 }
