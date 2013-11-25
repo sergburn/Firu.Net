@@ -92,22 +92,33 @@ namespace FiruPhone
                     random = mRand.Next(allIds[mark].Count);
 
                     var tranQuery = from t in mVocabulary.Translations
-                                    where t.ID == random
+                                    where t.WordID == random
                                     select t;
 
-                    CurrentTest = new ReverseTest(tranQuery.First());
-                    return true;
+                    List<Vocabulary.Translation> trans = tranQuery.ToList();
+
+                    if (trans.Count > 0)
+                    {
+                        CurrentTest = new ReverseTest(trans.First());
+                        return true;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 else
                 {
                     // try again unless there is nothing to learn
                     if (numTriedMarks == 3)
                     {
-                        CurrentTest = null;
-                        return false;
+                        break;
                     }
                 }
             }
+
+            CurrentTest = null;
+            return false;
         }
 
         public static List<string> GetKeypadGroups(string language)

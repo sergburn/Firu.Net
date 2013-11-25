@@ -119,11 +119,11 @@ namespace FiruModel
             StringBuilder hints = new StringBuilder();
             string answer = mChallenge.Word.Text;
 
-            if ( answer.Length > current.Length &&
-                 answer.StartsWith( current ) )
+            if (answer.Length > current.Length &&
+                 answer.StartsWith(current))
             {
-                string next = answer.Substring(current.Length,1);
-                foreach( string grp in groups )
+                string next = answer.Substring(current.Length, 1);
+                foreach (string grp in groups)
                 {
                     if (grp.IndexOf(next, StringComparison.InvariantCultureIgnoreCase) >= 0)
                     {

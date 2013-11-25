@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
-  <DefaultLanguage xmlns="" code="ru-RU" />
+  <DefaultLanguage xmlns="" code="en-US" />
+  <Languages xmlns="">
+    <Language code="en-US" />
+    <Language code="en-GB" />
+  </Languages>
   <App xmlns="" ProductID="{9cce29b3-e0a5-4842-8fa8-7aa8acaf0759}" Title="FiruPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="FiruPhone author" Description="Sample description" Publisher="FiruPhone" PublisherID="{02bb557d-419a-4696-9ef9-aabbcf5768eb}">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
     <Capabilities>

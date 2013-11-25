@@ -144,7 +144,7 @@ namespace FiruModel
             private MarkValue _rmark;
             private string _Text;
             [Column(Name = "word_id")]
-            private int WordID;
+            public int WordID;
             private EntityRef<Word> _Word;
 
             public Translation()

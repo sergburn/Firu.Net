@@ -46,7 +46,14 @@ namespace FiruPhone
         {
             if (App.TrainerModel.Challenge.Length == 0)
             {
-                App.TrainerModel.StartNextTest();
+                if (App.TrainerModel.StartNextTest())
+                {
+                    ShowNextLetters();
+                }
+                else
+                {
+                    frmKeypad.Visibility = System.Windows.Visibility.Collapsed;
+                }
             }
         }
 
@@ -67,14 +74,14 @@ namespace FiruPhone
         void CheckAnswer(string answer)
         {
             FiruModel.AnswerValue av = App.TrainerModel.CurrentTest.CheckAnswer(answer);
-            if (av == FiruModel.AnswerValue.PartiallyCorrect )
+            if (av == FiruModel.AnswerValue.PartiallyCorrect)
             {
                 mAnswerText = answer;
                 laWord.Text = mAnswerText;
                 slLivesLeft.Value = App.TrainerModel.CurrentTest.LivesLeft;
                 ShowNextLetters();
             }
-            else if ( av == FiruModel.AnswerValue.Correct )
+            else if (av == FiruModel.AnswerValue.Correct)
             {
                 mAnswerText = answer;
                 ShowResult();
@@ -85,7 +92,7 @@ namespace FiruPhone
         void ShowNextLetters()
         {
             string letters = App.TrainerModel.CurrentTest.GetNextLetterHint(mAnswerText, mKeypadGroups);
-            for ( int i = 0; i < letters.Length; i++ )
+            for (int i = 0; i < letters.Length; i++)
             {
                 mKeypad[i].Content = letters[i];
             }
